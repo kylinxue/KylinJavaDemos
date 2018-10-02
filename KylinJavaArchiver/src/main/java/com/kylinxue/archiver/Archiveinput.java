@@ -1,4 +1,4 @@
-package com.Archiverlxx01;
+package com.kylinxue.archiver;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,10 +7,10 @@ class Archiveinput {
 	public static void main(String[] args) {
 		FileInputStream  fis=null;
 	try {
-		fis=new FileInputStream("d:/arch/x.xar");
+		fis=new FileInputStream("C:/Users/user/Desktop/_test/x.xar");
 	} catch (FileNotFoundException e) {
 	
-		System.out.println("ÎÄ¼þµØÖ·Ã»ÓÐÕÒµ½");
+		System.out.println("ï¿½Ä¼ï¿½ï¿½ï¿½Ö·Ã»ï¿½ï¿½ï¿½Òµï¿½");
 	}
 	}
 }

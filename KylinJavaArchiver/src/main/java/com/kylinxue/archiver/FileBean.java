@@ -1,7 +1,7 @@
-package com.it18zhang.archiver;
+package com.kylinxue.archiver;
 
 /**
- * �ļ�Bean 
+ * 文件Bean ，表示文件的相关属性
  */
 public class FileBean {
 	private String fileName;

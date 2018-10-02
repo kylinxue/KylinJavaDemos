@@ -1,4 +1,4 @@
-package com.Archiverlxx01;
+package com.kylinxue.archiver;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -6,15 +6,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 /**
- * ¹éµµÆ÷ 
+ * å½’æ¡£ç±»
  */
 public class Archiver {
 	public static void main(String[] args) throws Exception {
 		//
-		FileOutputStream fos = new FileOutputStream("d:/arch/x.xar");
-		fos.write(addFile("D:/arch/a.xls"));
-		fos.write(addFile("D:/arch/b.xml"));
-		fos.write(addFile("D:/arch/c.jpg"));
+		FileOutputStream fos = new FileOutputStream("C:/Users/user/Desktop/_test/x.xar");
+		fos.write(addFile("C:/Users/user/Desktop/_test/a.png"));
+		fos.write(addFile("C:/Users/user/Desktop/_test/b.txt"));
+		fos.write(addFile("C:/Users/user/Desktop/_test/c.jpg"));
 		fos.close();
 		//
 		
@@ -25,45 +25,44 @@ public class Archiver {
 	 * @throws Exception 
 	 */
 	public static byte[] addFile(String path) throws Exception{
-		//ÎÄ¼ş
-		File f = new File(path);
-		//ÎÄ¼şÃû
-		String fname = f.getName();
-		//ÎÄ¼şÃûÊı×é
+		//
+		File file = new File(path);
+		//
+		String fname = file.getName();
+		// æ–‡ä»¶å-å­—èŠ‚æµ
 		byte[] fnameBytes = fname.getBytes() ;
-		//ÎÄ¼şÄÚÈİ³¤¶È
-		int len = (int)f.length();
+		// æ–‡ä»¶å†…å®¹é•¿åº¦
+		int len = (int)file.length();
 		
-		//¼ÆËã×Ü³¤¶È
+		//æ€»é•¿åº¦ = æ–‡ä»¶åå­—èŠ‚é•¿åº¦+æ–‡ä»¶åå­—èŠ‚+æ–‡ä»¶å†…å®¹é•¿åº¦+æ–‡ä»¶å†…å®¹
 		int total = 4 + fnameBytes.length + 4 + len ;
 		
-		//³õÊ¼»¯×ÜÊı×é
+		// åˆå§‹åŒ–æ€»æ•°ç»„
 		byte[] bytes = new byte[total];
 		
-		//1.Ğ´ÈëÎÄ¼şÃû³¤¶È
+		//1.å†™å…¥æ–‡ä»¶åé•¿åº¦çš„å­—èŠ‚æµ
 		byte[] fnameLenArr = Util.int2Bytes(fnameBytes.length);
 		System.arraycopy(fnameLenArr, 0, bytes, 0, 4);
 		
-		//2.Ğ´ÈëÎÄ¼şÃû±¾Éí
+		//2.å†™å…¥æ–‡ä»¶å-å­—èŠ‚æ•°ç»„
 		System.arraycopy(fnameBytes, 0, bytes, 4, fnameBytes.length);
 		
-		//3.Ğ´ÈëÎÄ¼şÄÚÈİ³¤¶È
+		//3.å†™å…¥æ–‡ä»¶é•¿åº¦çš„å­—èŠ‚æµ
 		byte[] fcontentLenArr = Util.int2Bytes(len);
 		System.arraycopy(fcontentLenArr, 0, bytes, 4 + fnameBytes.length, 4);
 		
-		//4.Ğ´ÈëÎÄ¼şÄÚÈİ
-		//¶ÁÈ¡ÎÄ¼şÄÚÈİµ½Êı×éÖĞ
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FileInputStream fis = new FileInputStream(f);
+		//4.å†™å…¥æ–‡ä»¶å†…å®¹
+		// è¯»å–æ–‡ä»¶å†…å®¹åˆ°å­—èŠ‚æ•°ç»„è¾“å‡ºæµ
+		ByteArrayOutputStream baout = new ByteArrayOutputStream();
+		FileInputStream fin = new FileInputStream(file);
 		byte[] buf = new byte[1024];
 		int len0 = 0 ;
-		while(((len0 = fis.read(buf)) != -1)){
-			baos.write(buf, 0, len0);
+		while(((len0 = fin.read(buf)) != -1)){
+			baout.write(buf, 0, len0);
 		}
-		fis.close();
-		//µÃµ½ÎÄ¼şÄÚÈİ
-		byte[] fileContentArr = baos.toByteArray();
-		
+		fin.close();
+		//  å­—èŠ‚æ•°ç»„è¾“å‡ºæµ --> æ–‡ä»¶å†…å®¹çš„å­—èŠ‚æµ
+		byte[] fileContentArr = baout.toByteArray();
 		System.arraycopy(fileContentArr, 0, bytes, 4 + fnameBytes.length + 4, fileContentArr.length);
 		
 		return bytes ;
