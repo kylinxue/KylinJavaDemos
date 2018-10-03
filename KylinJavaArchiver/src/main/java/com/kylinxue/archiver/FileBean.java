@@ -9,7 +9,7 @@ public class FileBean {
 
 	public FileBean() {
 	}
-	
+
 	public FileBean(String fname, byte[] fileContBytes) {
 		this.fileName =  fname ;
 		this.fileContent = fileContBytes ;
@@ -24,6 +24,7 @@ public class FileBean {
 	}
 
 	public byte[] getFileContent() {
+
 		return fileContent;
 	}
 

@@ -1,9 +1,6 @@
 package com.kylinxue.archiver;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 
 /**
  * 归档类
@@ -21,8 +18,7 @@ public class Archiver {
 	}
 	
 	/**
-	 * path : d:/xxx/xxx/a.jpg
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static byte[] addFile(String path) throws Exception{
 		//
@@ -66,5 +62,30 @@ public class Archiver {
 		System.arraycopy(fileContentArr, 0, bytes, 4 + fnameBytes.length + 4, fileContentArr.length);
 		
 		return bytes ;
+	}
+
+	/**
+	 *  将文件内容转换为字节数组
+	 *  FileInputStream and ByteArrayOutputStream are needed
+	 * @throws IOException
+	 */
+	private byte[] file2bytes(File file) throws IOException {
+		ByteArrayOutputStream baout = new ByteArrayOutputStream();
+		FileInputStream fin = new FileInputStream(file);
+		byte[] buf = new byte[1024];
+		int len1 = 0;
+		while ((len1=fin.read(buf))!=-1){
+			baout.write(buf,0,len1);
+		}
+		fin.close();
+		return baout.toByteArray();
+	}
+
+	private byte[] many2oneBytes(byte[] src1, byte[] src2){
+		byte[] dest =new byte[src1.length+src2.length];
+		System.arraycopy(src1,0,dest,0,src1.length);
+		System.arraycopy(src2,0,dest,src1.length,src2.length);
+
+		return dest;
 	}
 }

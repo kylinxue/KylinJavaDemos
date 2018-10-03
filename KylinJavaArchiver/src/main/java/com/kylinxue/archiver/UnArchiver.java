@@ -2,6 +2,7 @@ package com.kylinxue.archiver;
 
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,33 @@ public class UnArchiver {
         //
         for(FileBean fb : files){
             // 注意：需要自己创建目录，目录不存在会抛出异常
-            // 可以先检查目录是否存在，不存在创建；存在执行
+            // + 可以先检查目录是否存在，不存在创建；存在执行
             fos = new FileOutputStream("C:/Users/user/Desktop/_test/unarch/" + fb.getFileName());
             fos.write(fb.getFileContent());
             fos.close();
         }
+    }
+
+    public static void unArchive(String xarFile, String destPath) throws Exception {
+
+        List<FileBean> files = new ArrayList<FileBean>();
+        FileInputStream fin = new FileInputStream(xarFile);
+        FileBean fileBean = null;
+
+        while((fileBean = readNextFile(fin))!=null){
+            files.add(fileBean);
+        }
+        fin.close();
+
+        FileOutputStream fout = null;
+        for(FileBean fb : files){
+            // 指定输出文件对应的输出流，路径+文件名
+            // 将字节流写入输出流，文件产生，关闭输出流
+            fout = new FileOutputStream(destPath + fb.getFileName());
+            fout.write(fb.getFileContent());
+            fout.close();
+        }
+
     }
 
     /**

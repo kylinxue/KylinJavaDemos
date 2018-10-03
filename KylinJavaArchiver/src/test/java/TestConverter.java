@@ -1,8 +1,8 @@
-package com.it18zhang.archive.test;
+import org.junit.Test;
 
 import java.io.File;
 
-import org.junit.Test;
+
 
 public class TestConverter {
 	
@@ -13,7 +13,7 @@ public class TestConverter {
 	}
 	
 	/**
-	 * ½«ÕûÊý×ª³É×Ö½ÚÊý×é
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@Test
 	public void test1(){
@@ -22,7 +22,7 @@ public class TestConverter {
 	}
 	
 	/**
-	 * ÕûÐÍ×ª»»³É×Ö½ÚÊý×é
+	 * ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public byte[] int2Bytes(int i){
 		byte[] arr = new byte[4] ;
@@ -34,7 +34,7 @@ public class TestConverter {
 	}
 	
 	/**
-	 * ×Ö½ÚÊý×é×ª³Éint
+	 * ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½int
 	 */
 	public int bytes2Int(byte[] bytes){
 		int i0= bytes[0] & 0xFF  ;
