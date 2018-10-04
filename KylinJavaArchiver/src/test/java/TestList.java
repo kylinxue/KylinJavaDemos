@@ -1,5 +1,3 @@
-package com.it18zhang.archive.test;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
