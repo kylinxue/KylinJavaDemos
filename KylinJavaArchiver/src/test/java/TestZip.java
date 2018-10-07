@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -11,21 +9,22 @@ public class TestZip {
 	
 	@Test
 	public void zip() throws Exception {
-		//
-		FileOutputStream fos = new FileOutputStream("d:/arch/xxx.xar");
+		// 指定压缩后的文件名
+		FileOutputStream fos = new FileOutputStream("e:/test/xxx.xar");
 		// Zip输出流为装饰器模式
 		ZipOutputStream zos = new ZipOutputStream(fos);
 
 		// 三个文件-路径+名
 		String[] arr = {
-				"d:/arch/1.jpg",
-				"d:/arch/2.txt",
-				"d:/arch/3.xml"
+				"e:/test/1.txt",
+				"e:/test/2.jpg",
+				"e:/test/3.xml"
 		};
 		
 		for(String s : arr){
 			addFile(zos , s);
 		}
+		// 注意：ZipOutputStream首先关闭，然后文件输出流才关闭，否则会报错。
 		zos.close();
 		fos.close();
 		System.out.println("over");
@@ -37,7 +36,7 @@ public class TestZip {
 	 *  ZipOutputStream需要传入OutputStream，表示压缩的输出流最终输出
 	 * 此处是输出到文件输出流
 	 */
-	public static void addFile(ZipOutputStream zos , String path) throws Exception{
+	public  void addFile(ZipOutputStream zos , String path) throws Exception{
 		File f = new File(path);
 		zos.putNextEntry(new ZipEntry(f.getName()));
 		FileInputStream fis = new FileInputStream(f);
@@ -48,7 +47,7 @@ public class TestZip {
 		zos.write(bytes);
 		zos.closeEntry();
 	}
-	
+
 
 	@Test
 	public void unzip() throws Exception{
@@ -76,5 +75,55 @@ public class TestZip {
 		zin.close();
 		fin.close();
 	}
-	
+
+	/**
+	 *  压缩单个文件
+	 * @throws IOException
+	 */
+	@Test
+	public void zipSingleFile() throws IOException {
+		String src = "e:/test/1.txt";
+
+		File file = new File(src);
+		FileInputStream fis = new FileInputStream(file);
+		FileOutputStream fos = new FileOutputStream("e:/test/z.zip");
+		ZipOutputStream zos = new ZipOutputStream(fos);
+		ZipEntry entry = new ZipEntry(file.getName());
+		zos.putNextEntry(entry);
+		byte[] buf = new byte[1024];
+		int len = 0;
+		while((len = fis.read(buf)) != -1){
+			zos.write(buf, 0, len);
+		}
+		zos.closeEntry();
+		fis.close();zos.close();fos.close();
+		System.out.println("over");
+	}
+
+	/**
+	 * 解压缩由单个文件组成的zip格式
+	 */
+	@Test
+	public void testUnzipSingleFile(){
+		try {
+			unzipSingleFile("e:/test/1.zip","e:/test/1.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void unzipSingleFile(String src, String dest) throws IOException {
+		FileInputStream fis = new FileInputStream(src);
+		ZipInputStream zis = new ZipInputStream(fis);
+		FileOutputStream fos = new FileOutputStream(dest);
+		ZipEntry entry = zis.getNextEntry();
+		byte[] buf = new byte[1024];
+		int len = 0;
+		if(entry != null){
+			while((len = zis.read(buf)) != -1){
+				fos.write(buf, 0, len);
+			}
+		}
+		fis.close();zis.close();fos.close();
+		System.out.println("over");
+	}
 }
